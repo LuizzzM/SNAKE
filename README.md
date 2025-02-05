@@ -22,6 +22,4 @@ Luiz Augusto Mendes Barbosa
 
 ## Referências
 - https://youtu.be/LyWSsZktVOg
-- DeepSeek IA
-
 
