@@ -20,7 +20,7 @@ Luiz Augusto Mendes Barbosa
 2. Abra o arquivo index.html em um navegador.
 3. Jogue e divirta-se!
 
-## Fontes
+## Referências
 - https://youtu.be/LyWSsZktVOg
 - DeepSeek IA
 

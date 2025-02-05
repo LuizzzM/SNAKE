@@ -69,26 +69,30 @@ function desenharComida() {
 function atualizar() {
   if (!jogoIniciado) return;
   let comidaComida = false;
+  
   cobra.mover();
   const cabeca = cobra.corpo[0];
   if (cabeca.x === comida.x && cabeca.y === comida.y) {
-    dobrarTamanho(cobra);
+    aumentarTamanho(cobra);
     pontuacao += 10;
     document.getElementById('score').textContent = pontuacao;
     comidaComida = true;
   }
+  
   if (modoVersus) {
     IAComputador();
     cobraComputador.mover();
     const cabecaComputador = cobraComputador.corpo[0];
     if (cabecaComputador.x === comida.x && cabecaComputador.y === comida.y) {
-      dobrarTamanho(cobraComputador);
+      aumentarTamanho(cobraComputador);
       comidaComida = true;
     }
   }
+  
   if (comidaComida) {
     criarComida();
   }
+  
   if (
     cobra.verificarColisao() ||
     (modoVersus && cobraComputador.verificarColisao()) ||
@@ -98,38 +102,40 @@ function atualizar() {
   }
 }
 
-function dobrarTamanho(cobraObj) {
-  const comprimentoInicial = cobraObj.corpo.length;
+function aumentarTamanho(cobraObj) {
   const cauda = cobraObj.corpo[cobraObj.corpo.length - 1];
   let dx = 0, dy = 0;
+  
   if (cobraObj.corpo.length > 1) {
     const penultimo = cobraObj.corpo[cobraObj.corpo.length - 2];
     dx = cauda.x - penultimo.x;
     dy = cauda.y - penultimo.y;
   } else {
     switch (cobraObj.direcao) {
-      case 'up': dx = 0; dy = 1; break;
-      case 'down': dx = 0; dy = -1; break;
-      case 'left': dx = 1; dy = 0; break;
+      case 'up':    dx = 0;  dy = 1; break;
+      case 'down':  dx = 0;  dy = -1; break;
+      case 'left':  dx = 1;  dy = 0; break;
       case 'right': dx = -1; dy = 0; break;
     }
   }
-  for (let i = 1; i <= comprimentoInicial; i++) {
-    const novoSegmento = {
-      x: (cauda.x + dx * i + qtdGrade) % qtdGrade,
-      y: (cauda.y + dy * i + qtdGrade) % qtdGrade
-    };
-    cobraObj.corpo.push(novoSegmento);
-  }
+  
+  const novoSegmento = {
+    x: (cauda.x + dx + qtdGrade) % qtdGrade,
+    y: (cauda.y + dy + qtdGrade) % qtdGrade
+  };
+  
+  cobraObj.corpo.push(novoSegmento);
 }
 
 function IAComputador() {
   const cabeca = cobraComputador.corpo[0];
   let novaDirecao = cobraComputador.direcao;
+  
   if (comida.x > cabeca.x && cobraComputador.direcao !== 'left') novaDirecao = 'right';
   else if (comida.x < cabeca.x && cobraComputador.direcao !== 'right') novaDirecao = 'left';
   else if (comida.y > cabeca.y && cobraComputador.direcao !== 'up') novaDirecao = 'down';
   else if (comida.y < cabeca.y && cobraComputador.direcao !== 'down') novaDirecao = 'up';
+  
   cobraComputador.direcao = novaDirecao;
 }
 
